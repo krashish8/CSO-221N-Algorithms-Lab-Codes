@@ -235,12 +235,4 @@ int main() {
         cout << "\nEnter your choice : ";
         cin >> op;
     }
-    root = bst.insert(35, root);
-    bst.insert(20, root);
-    bst.insert(50, root);
-    bst.insert(30, root);
-    bst.insert(10, root);
-    cout << "Preorder : "; bst.preorder(root); cout << endl;
-    cout << "Inorder : "; bst.inorder(root); cout << endl;
-    cout << "Postorder : "; bst.postorder(root); cout << endl;
 }
