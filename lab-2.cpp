@@ -57,11 +57,19 @@ bool BST::search(node* &n, node* &parent, int x, node* root) {
 }
 
 node *BST::insert(int x, node *root) {
+
     node *parent = root;
     if (root == NULL) return get_node(x);
     while (root != NULL) {
         parent = root;
         if (root->data > x) root = root->left;
+        else if (root->data == x) {
+            cout << "The given node " << x << " exists.\n Enter new node: ";
+            int n;
+            cin >> n;
+            root = insert(n, root);
+            return root;
+        }
         else root = root->right;
     }
     if (parent->data > x) parent->left = get_node(x);
