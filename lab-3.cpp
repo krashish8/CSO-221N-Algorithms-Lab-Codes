@@ -40,16 +40,23 @@ void insertionSort(int a[], int n) {
 			a[j+1] = a[j];
 			j--;
 		}
-		a[j] = temp;
+		a[j+1] = temp;
 	}
 }
 
 void shellSort(int a[], int n) {
-	for (int gap = n / 2; gap >= 0; gap /= 2) {
-		for (int i = 0; i + gap < n; i++) {
-			if (a[i] > a[i+gap])
-				swap(a[i], a[i+gap]);
+	int gap = n / 2;
+	while (gap > 0) {
+		for (int i = gap; i < n; i++) {
+			int temp = a[i];
+			int j = i;
+			while (j >= gap && a[j-gap] > temp) {
+				a[j] = a[j-gap];
+				j -= gap;
+			}
+			a[j] = temp;
 		}
+		gap /= 2;
 	}
 }
 
@@ -57,7 +64,8 @@ void radixSort(int a[], int n) {
 	int mx = a[0];
 	for (int i = 0; i < n; i++)
 		mx = max(mx, a[i]);
-	for (int exp = 1; mx / exp > 0; exp *= 10) {
+	int exp = 1;
+	while (mx / exp > 0) {
 		int output[10] = {0}, count[10] = {0};
 		for (int i = 0; i < n; i++)
 			count[a[i] / exp % 10]++;
@@ -69,18 +77,40 @@ void radixSort(int a[], int n) {
 		}
 		for (int i = 0; i < n; i++)
 			a[i] = output[i];
+		exp *= 10;
 	}
 }
 
+int a[105];
+
 int main() {
-	cout << "Enter the number of elements : ";
-	int n;
-	cin >> n;
-	cout << "Enter the elements : ";
-	int a[n];
-	for (int i = 0; i < n; i++)
-		cin >> a[i];
-	radixSort(a, n);
-	for (int i = 0; i < n; i++)
-		cout << a[i] << " ";
+	cout << "1. Selection Sort" << endl;
+	cout << "2. Bubble Sort" << endl;
+	cout << "3. Insertion Sort" << endl;
+	cout << "4. Shell Sort" << endl;
+	cout << "5. Radix Sort" << endl;
+	cout << "6. Exit" << endl;
+	cout << "Enter your choice : ";
+	int op, n;
+	cin >> op;
+	while (op != 6) {
+		cout << "Enter the number of elements : ";
+		cin >> n;
+		cout << "Enter the elements : ";
+		for (int i = 0; i < n; i++)
+			cin >> a[i];
+		switch(op) {
+			case 1: selectionSort(a, n); break;
+			case 2: bubbleSort(a, n); break;
+			case 3: insertionSort(a, n); break;
+			case 4: shellSort(a, n); break;
+			case 5: radixSort(a, n); break;
+			case 6: break;
+		}
+		cout << "Sorted Elements : ";
+		for (int i = 0; i < n; i++)
+			cout << a[i] << " ";
+		cout << "\n\nEnter your choice : ";
+        cin >> op;
+	}
 }
